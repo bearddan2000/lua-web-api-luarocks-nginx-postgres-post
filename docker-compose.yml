@@ -1,0 +1,18 @@
+version: '3.4'
+services:
+
+  db:
+    network_mode: host
+    image: postgres:alpine
+    environment:
+      - POSTGRES_DB=lua-app
+      - POSTGRES_USER=maria
+      - POSTGRES_HOST_AUTH_METHOD=trust
+    volumes:
+      - ./db/sql:/docker-entrypoint-initdb.d
+
+  lua-srv:
+    network_mode: host
+    build: lua-srv
+    depends_on:
+        - db
